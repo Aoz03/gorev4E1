@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayılar</title>
+    <style>
+        .number {
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <p>1'den 99'a kadar olan sayıları for döngüsü ile yan yana</p>
+    <button id="sortButton">Sırala</button>
+    <br><br>
+    <button id="randomButton" disabled>Rastgele Sayı Seç</button>
+    <br><br>
+    <div id="numbersContainer"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sortButton = document.getElementById('sortButton');
+            const randomButton = document.getElementById('randomButton');
+            const numbersContainer = document.getElementById('numbersContainer');
+            const numbers = [];
+
+            // 1'den 99'a kadar sayıları önceden oluştur ancak ekrana yazdırma
+            for (let i = 1; i <= 99; i++) {
+                const span = document.createElement('span');
+                span.textContent = i;
+                span.classList.add('number');
+                numbers.push(span);
+            }
+
+            // Sırala butonuna basıldığında sayıları ekrana yazdır ve sıralar
+            sortButton.addEventListener('click', () => {
+                numbers.sort((a, b) => a.textContent - b.textContent);
+                numbersContainer.innerHTML = '';
+                numbers.forEach((span, index) => {
+                    if (index > 0 && index % 10 === 0) {
+                        numbersContainer.appendChild(document.createElement('br'));
+                    }
+                    numbersContainer.appendChild(span);
+                });
+                sortButton.disabled = true;
+                randomButton.disabled = false;
+            });
+
+            // Rastgele Sayı Seç butonuna basıldığında rastgele bir sayı seçer
+            randomButton.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * numbers.length);
+                numbers[randomIndex].classList.add('highlight');
+            });
+        });
+    </script>
+</body>
+</html>
